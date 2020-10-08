@@ -34,7 +34,7 @@ class BaseModel(nn.Module):
         #
         ### ---------------------------------------------------------
 
-    def forward(self, imgs, with_dyn=True):
+    def forward(self, imgs, with_dyn=True,args):
         if with_dyn:
             ''' with dynamic convolutional layer '''
             ### complete the forward path --------------------
