@@ -58,7 +58,7 @@ class BaseModel(nn.Module):
             print('starting forward')
             w = F.normalize(w, p=2, dim=0)
             print('w size is', w.size())
-            print('self.dc[0].weight.data size is, self.dc[0].weight.data.size())
+            print('self.dc[0].weight.data size is', self.dc[0].weight.data.size())
             sys.exit()
             w = w.view_as(self.dc[0].weight.data)
             self.dc[0].weight.data = w
