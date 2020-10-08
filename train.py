@@ -4,6 +4,7 @@ import torch
 import sys
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print('training device is,', device)
 
 criterion = torch.nn.CrossEntropyLoss()
 
