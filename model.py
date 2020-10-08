@@ -57,7 +57,7 @@ class BaseModel(nn.Module):
         cls_scores = cls_scores.new_zeros((64, 10)) #64 is batch size
         for i in range(10):
             v = self.resnet18(imgs)
-            w = self.Weights_Generator_MLP(v.flatten())
+            w = self.w_dyn(v.flatten())
             w = F.normalize(w, p=2, dim=0)
             w = w.view_as(self.dc.weight.data)
             self.dc.weight.data = w
