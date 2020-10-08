@@ -58,7 +58,7 @@ class BaseModel(nn.Module):
         for i in range(10):
             v = self.resnet18(imgs)
             print('v size is', v.size())
-            w = self.w_dyn(v.view(-1))
+            w = self.w_dyn(v.view(imgs.size(0),-1))
             w = F.normalize(w, p=2, dim=0)
             w = w.view_as(self.dc.weight.data)
             self.dc.weight.data = w
