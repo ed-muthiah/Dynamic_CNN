@@ -53,7 +53,7 @@ class BaseModel(nn.Module):
         for i in range(v.size(0)):
             w = F.normalize(w, p=2, dim=0)
             w = w.view_as(self.dc[0].weight.data)
-            self.dc.weight.data = w
+            self.dc[0].weight.data = w
             v_hat = self.dc(v)
             v_hat = v_hat / torch.norm(v_hat)
             re_v_hat = v_hat.view(v_hat.size(0), 64)
