@@ -14,9 +14,9 @@ class BaseModel(nn.Module):
         ### initialize the BaseModel --------------------------------
         #
         #
-        self.net = models.resnet18(pretrained=True)
+        self.resnet18 = models.resnet18(pretrained=True)
         # self.net = self.net.cuda() if self.device else self.net
-        self.dcn_model = nn.Sequential(*list(resnet18.children())[:5])
+        self.dcn_model = nn.Sequential(*list(self.resnet18.children())[:5])
         self.w_dyn = nn.Sequential(
             nn.Linear(4096,576),
             nn.Tanh()
@@ -66,9 +66,7 @@ class BaseModel(nn.Module):
             #
             ### ----------------------------------------------
         else:
-             ''' without dynamic convolutional layer '''
-            ### complete the forward path --------------------
-            #
+            ''' without dynamic convolutional layer '''
             out1=self.resnet18(imgs)
             out1=self.dc(out1)
             out1=out1.view(-1,64)
