@@ -80,7 +80,7 @@ class BaseModel(nn.Module):
             
         else:
             ''' without dynamic convolutional layer '''
-            out1=self.resnet18(imgs)
+            out1=self.dcn_model(imgs)
             out1=self.dc(out1)
             out1=out1.view(-1,64)
             cls_scores=self.w_cls(out1)
