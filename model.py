@@ -61,6 +61,7 @@ class BaseModel(nn.Module):
             #
             #
             ### ----------------------------------------------
+        print('done with forward')
         else:
             ''' without dynamic convolutional layer '''
             out1=self.resnet18(imgs)
