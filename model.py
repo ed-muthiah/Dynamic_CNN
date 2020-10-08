@@ -55,7 +55,7 @@ class BaseModel(nn.Module):
             w = w.view_as(self.dc.weight.data)
             self.dc.weight.data = w
             v_hat = self.dc(v)
-            v_hat = v_hat / np.sqrt(v_hat.size()[0])
+            v_hat = v_hat / torch.norm(v_hat)
             re_v_hat = v_hat.view(v_hat.size(0), 64)
             cls_scores[:, [i]] = self.w_cls(re_v_hat).double()
             #
