@@ -55,18 +55,20 @@ class BaseModel(nn.Module):
 #self.dc[0].weight.data size is torch.Size([1, 64, 3, 3])
 
         w = self.w_dyn(v.view(imgs.size(0),-1))
-        for i in range(v.size(0)):
+        w_normalised = F.normalize(w, p=2, dim=0)
+        print('w size is', w.size())
+        for img in range(v.size(0)):
             print('starting forward')
-            w_i = F.normalize(w, p=2, dim=0)
-            print('w size is', w.size())
             print('self.dc[0].weight.data size is', self.dc[0].weight.data.size())
-            w_i = w_i[i,:].view_as(self.dc[0].weight.data)
+            w_img = w_normalised[img,:].view_as(self.dc[0].weight.data)
+            self.dc[0].weight.data = w_img
             sys.exit()
-            self.dc[0].weight.data = w
-            v_hat = self.dc(v)
-            v_hat = v_hat / torch.norm(v_hat)
-            re_v_hat = v_hat.view(v_hat.size(0), 64)
-            cls_scores[:, [i]] = self.w_cls(re_v_hat).double()
+            v_i = v[img,:, :, :]
+            v_hat_i = self.dc(v_i)
+            v_hat_i = v_hat_i / torch.norm(v_hat_i)
+            v_hat_i = v_hat_i.view(v_hat_i.size(0), 64)
+            cls_scores[:, [img]] = self.w_cls(v_hat_i).double()
+            print('done wooohooo')
             #
             #
             ### ----------------------------------------------
