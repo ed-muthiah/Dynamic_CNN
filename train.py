@@ -74,10 +74,6 @@ def evaluate(args, model, testloader):
             cls_scores = model(imgs, with_dyn=args.with_dyn)
 
             predict = torch.argmax(cls_scores, dim=1)
-            print('correct_count.is_cuda', correct_count.is_cuda)
-            print('predict.is_cuda', predict.is_cuda)
-            print('labels.is_cuda', labels.is_cuda)
-            sys.exit()
             correct_count += (predict == labels).sum()
     testing_accuracy = correct_count / total_count
     return testing_accuracy.item()
