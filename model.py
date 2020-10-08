@@ -42,7 +42,7 @@ class BaseModel(nn.Module):
     def forward(self, imgs,with_dyn=True):
         if with_dyn:
             ''' with dynamic convolutional layer '''
-            print('with dynamic convolutional layer')
+            #print('with dynamic convolutional layer')
             cls_scores = torch.tensor((), dtype=torch.double, device=self.device)
             cls_scores = cls_scores.new_zeros((64, 10)) #64 is batch size
             v = self.dcn_model(imgs)
@@ -79,7 +79,7 @@ class BaseModel(nn.Module):
 
         else:
             ''' without dynamic convolutional layer '''
-            print('withOUT dynamic convolutional layer')
+            #print('withOUT dynamic convolutional layer')
             out1=self.dcn_model(imgs)
             out1=self.dc(out1)
             out1=out1.view(-1,64)
