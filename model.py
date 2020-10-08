@@ -2,7 +2,15 @@ import torch
 import torch.nn as nn
 import numpy as np
 import torchvision
-from torchvision import *
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+import time
+import sys
+from torch import optim
+import torch.nn.functional as F
+from torchvision import datasets, transforms, models
+import torchvision.models as models
 
 class BaseModel(nn.Module):
     def __init__(self, args):
