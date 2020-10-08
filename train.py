@@ -90,9 +90,9 @@ def resume(args, model, optimizer):
     ### load the model and the optimizer --------------------------------
     #
     #
-    model_CKPT = torch.load(checkpoint_path)
-    model.load_state_dict(model_CKPT['state_dict'])
-    optimizer.load_state_dict(model_CKPT['optimizer'])
+    checkpoint = torch.load(checkpoint_path)
+    model.load_state_dict(checkpoint['state_dict'])
+    optimizer.load_state_dict(checkpoint['optimizer'])
     #
     #
     ### -----------------------------------------------------------------
