@@ -32,7 +32,7 @@ class BaseModel(nn.Module):
             nn.Tanh()
             )
         self.dc = nn.Sequential(
-            nn.Conv2d(64,1,3,stride=2,padding=1)
+            nn.Conv2d(64,1,3,stride=1,padding=1)
             )
         self.w_cls = nn.Sequential(
             nn.Linear(64,10),
@@ -52,15 +52,16 @@ class BaseModel(nn.Module):
 #imgs size is torch.Size([64, 3, 32, 32])
 #v size is torch.Size([64, 64, 8, 8])
 #w size is torch.Size([64, 576])
+#self.dc[0].weight.data size is torch.Size([1, 64, 3, 3])
 
         w = self.w_dyn(v.view(imgs.size(0),-1))
         for i in range(v.size(0)):
             print('starting forward')
-            w = F.normalize(w, p=2, dim=0)
+            w_i = F.normalize(w, p=2, dim=0)
             print('w size is', w.size())
             print('self.dc[0].weight.data size is', self.dc[0].weight.data.size())
+            w_i = w_i.view_as(self.dc[0].weight.data)
             sys.exit()
-            w = w.view_as(self.dc[0].weight.data)
             self.dc[0].weight.data = w
             v_hat = self.dc(v)
             v_hat = v_hat / torch.norm(v_hat)
