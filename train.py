@@ -63,7 +63,7 @@ def train(args, model, optimizer, dataloaders):
     print('best testing accuracy achieved: {:.3f}'.format(best_testing_accuracy))
 
 def evaluate(args, model, testloader):
-    total_count = torch.tensor([0.0]); correct_count = torch.tensor([0.0]).cuda()
+    total_count = torch.tensor([0.0]).cuda(); correct_count = torch.tensor([0.0]).cuda()
     for i, data in enumerate(testloader):
         imgs, labels = data
         imgs, labels = imgs.to(device), labels.to(device)
