@@ -46,13 +46,13 @@ class BaseModel(nn.Module):
             ''' with dynamic convolutional layer '''        
         cls_scores = torch.tensor((), dtype=torch.double, device=self.device)
         cls_scores = cls_scores.new_zeros((64, 10)) #64 is batch size
-        for i in range(10):
-            v = self.dcn_model(imgs)
-            print('imgs size is', imgs.size())
-            print('v size is', v.size())
-            w = self.w_dyn(v.view(imgs.size(0),-1))
+        v = self.dcn_model(imgs)
+        print('imgs size is', imgs.size())
+        print('v size is', v.size())
+        w = self.w_dyn(v.view(imgs.size(0),-1))
+        for i in range(v.size()):
             w = F.normalize(w, p=2, dim=0)
-            w = w.view_as(self.dc.weight.data)
+            w = w.view_as(self.dc[0].weight.data)
             self.dc.weight.data = w
             v_hat = self.dc(v)
             v_hat = v_hat / torch.norm(v_hat)
