@@ -70,7 +70,7 @@ class BaseModel(nn.Module):
             v_hat_i = self.dc(v_i)
             v_hat_i = v_hat_i / torch.norm(v_hat_i)
             v_hat_i = v_hat_i.view(v_hat_i.size(0), 64)
-            cls_scores[:, [img]] = self.w_cls(v_hat_i).double()
+            cls_scores[[img],:] = self.w_cls(v_hat_i).double()
             print('done wooohooo')
             sys.exit()
             
