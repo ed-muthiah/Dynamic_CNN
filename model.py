@@ -61,9 +61,10 @@ class BaseModel(nn.Module):
             print('starting forward')
             print('self.dc[0].weight.data size is', self.dc[0].weight.data.size())
             w_img = w_normalised[img,:].view_as(self.dc[0].weight.data)
-            self.dc[0].weight.data = w_img
+            with torch.no_grad():
+                self.dc[0].weight.data = w_img
             
-            v_i = v[img,:, :, :]
+            v_i = torch.unsqueeze(v[img,:, :, :], 0)
             print('v_i', v_i.size())
             sys.exit()
             v_hat_i = self.dc(v_i)
