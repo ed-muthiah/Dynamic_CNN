@@ -33,10 +33,10 @@ class BaseModel(nn.Module):
 
     def forward(self, imgs, with_dyn=True):
         if with_dyn:
-			''' with dynamic convolutional layer '''
-    	    ### complete the forward path --------------------
-        	#
-        	#
+            ''' with dynamic convolutional layer '''
+            ### complete the forward path --------------------
+            #
+            #
         # out1=self.resnet18(imgs)
         # out2=self.embeds(labels)
         # out2=self.Weights_Generator_MLP(out2)
@@ -62,20 +62,18 @@ class BaseModel(nn.Module):
             v_hat = v_hat / np.sqrt(v_hat.size()[0])
             re_v_hat = v_hat.view(v_hat.size(0), 64)
             cls_scores[:, [i]] = self.w_cls(re_v_hat).double()
-    	    #
-        	#
-        	### ----------------------------------------------
-
- 		else:
-			''' without dynamic convolutional layer '''
-    	    ### complete the forward path --------------------
-        	#
+            #
+            #
+            ### ----------------------------------------------
+        else:
+             ''' without dynamic convolutional layer '''
+            ### complete the forward path --------------------
+            #
             out1=self.resnet18(imgs)
             out1=self.dc(out1)
             out1=out1.view(-1,64)
             cls_scores=self.w_cls(out1)
-       	    #
-	        #
-     	    ### ----------------------------------------------		
-		
+            
+            #
+            ### ---------------------------------------------
         return cls_scores
