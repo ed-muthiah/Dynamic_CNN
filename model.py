@@ -23,7 +23,7 @@ class BaseModel(nn.Module):
         #
         #
         self.resnet18 = models.resnet18(pretrained=True)
-        # self.net = self.net.cuda() if self.device else self.net
+        # self.resnet18 = self.net.cuda() if self.device else self.net
         self.dcn_model = nn.Sequential(*list(self.resnet18.children())[:5])
         self.w_dyn = nn.Sequential(
             nn.Linear(4096,576),
