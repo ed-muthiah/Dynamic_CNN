@@ -62,13 +62,14 @@ class BaseModel(nn.Module):
             print('self.dc[0].weight.data size is', self.dc[0].weight.data.size())
             w_img = w_normalised[img,:].view_as(self.dc[0].weight.data)
             self.dc[0].weight.data = w_img
-            sys.exit()
+            
             v_i = v[img,:, :, :]
             v_hat_i = self.dc(v_i)
             v_hat_i = v_hat_i / torch.norm(v_hat_i)
             v_hat_i = v_hat_i.view(v_hat_i.size(0), 64)
             cls_scores[:, [img]] = self.w_cls(v_hat_i).double()
             print('done wooohooo')
+            sys.exit()
             #
             #
             ### ----------------------------------------------
