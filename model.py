@@ -52,6 +52,8 @@ class BaseModel(nn.Module):
         w = self.w_dyn(v.view(imgs.size(0),-1))
         for i in range(v.size(0)):
             w = F.normalize(w, p=2, dim=0)
+            print('w size is', w.size())
+            sys.exit()
             w = w.view_as(self.dc[0].weight.data)
             self.dc[0].weight.data = w
             v_hat = self.dc(v)
