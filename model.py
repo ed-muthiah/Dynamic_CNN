@@ -34,7 +34,7 @@ class BaseModel(nn.Module):
         #
         ### ---------------------------------------------------------
 
-    def forward(self, imgs, args,with_dyn=True):
+    def forward(self, imgs,with_dyn=True):
         if with_dyn:
             ''' with dynamic convolutional layer '''
             ### complete the forward path --------------------
@@ -54,7 +54,7 @@ class BaseModel(nn.Module):
         # return cls_scores # Dim: [batch_size, 10]
         
         cls_scores = torch.tensor((), dtype=torch.double, device=self.device)
-        cls_scores = cls_scores.new_zeros((args.batch_size, 10))
+        cls_scores = cls_scores.new_zeros((64, 10)) #64 is batch size
         for i in range(10):
             v = self.resnet18(imgs)
             w = self.Weights_Generator_MLP(v.flatten())
