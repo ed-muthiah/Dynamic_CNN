@@ -11,7 +11,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--exp_id', type=str, default='df_0')
-	parser.add_argument('--with_dyn', type=int, default=1, help='with/without using dynamic filters')
+    parser.add_argument('--with_dyn', type=int, default=1, help='with/without using dynamic filters')
 
     parser.add_argument('--resume', type=int, default=0, help='resume the trained model')
     parser.add_argument('--test', type=int, default=0, help='test with trained model')
