@@ -49,11 +49,16 @@ class BaseModel(nn.Module):
         v = self.dcn_model(imgs)
         print('imgs size is', imgs.size())
         print('v size is', v.size())
+#imgs size is torch.Size([64, 3, 32, 32])
+#v size is torch.Size([64, 64, 8, 8])
+#w size is torch.Size([64, 576])
+
         w = self.w_dyn(v.view(imgs.size(0),-1))
         for i in range(v.size(0)):
             print('starting forward')
             w = F.normalize(w, p=2, dim=0)
             print('w size is', w.size())
+            print('self.dc[0].weight.data size is, self.dc[0].weight.data.size())
             sys.exit()
             w = w.view_as(self.dc[0].weight.data)
             self.dc[0].weight.data = w
