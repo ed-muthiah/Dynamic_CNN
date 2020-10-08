@@ -33,8 +33,8 @@ if __name__ == '__main__':
     torch.cuda.manual_seed(args.seed)
 
     # dataloaders
-    transform = transforms.Compose([transforms.ToTensor(),
-     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+    transform = transforms.Compose([transforms.ToTensor(), 
+    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
     trainvalset = torchvision.datasets.CIFAR10(root='./data', train=True,
                                                download=True, transform=transform)
