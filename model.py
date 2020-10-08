@@ -51,6 +51,7 @@ class BaseModel(nn.Module):
         print('v size is', v.size())
         w = self.w_dyn(v.view(imgs.size(0),-1))
         for i in range(v.size(0)):
+            print('starting forward')
             w = F.normalize(w, p=2, dim=0)
             print('w size is', w.size())
             sys.exit()
@@ -63,7 +64,7 @@ class BaseModel(nn.Module):
             #
             #
             ### ----------------------------------------------
-        print('done with forward')
+            
         else:
             ''' without dynamic convolutional layer '''
             out1=self.resnet18(imgs)
