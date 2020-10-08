@@ -60,7 +60,7 @@ class BaseModel(nn.Module):
             w_i = F.normalize(w, p=2, dim=0)
             print('w size is', w.size())
             print('self.dc[0].weight.data size is', self.dc[0].weight.data.size())
-            w_i = w_i.view_as(self.dc[0].weight.data)
+            w_i = w_i[i,:].view_as(self.dc[0].weight.data)
             sys.exit()
             self.dc[0].weight.data = w
             v_hat = self.dc(v)
