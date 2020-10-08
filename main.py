@@ -7,6 +7,7 @@ from model import BaseModel
 from train import train, resume, evaluate
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(device)
 #
 def parse_args():
     parser = argparse.ArgumentParser()
