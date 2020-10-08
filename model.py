@@ -40,7 +40,7 @@ class BaseModel(nn.Module):
         cls_scores = torch.tensor((), dtype=torch.double, device=self.device)
         cls_scores = cls_scores.new_zeros((64, 10)) #64 is batch size
         for i in range(10):
-            v = self.resnet18(imgs)
+            v = self.dcn_model(imgs)
             print('imgs size is', imgs.size())
             print('v size is', v.size())
             w = self.w_dyn(v.view(imgs.size(0),-1))
