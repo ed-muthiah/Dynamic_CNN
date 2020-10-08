@@ -50,7 +50,7 @@ class BaseModel(nn.Module):
         print('imgs size is', imgs.size())
         print('v size is', v.size())
         w = self.w_dyn(v.view(imgs.size(0),-1))
-        for i in range(v.size()):
+        for i in range(v.size(0)):
             w = F.normalize(w, p=2, dim=0)
             w = w.view_as(self.dc[0].weight.data)
             self.dc.weight.data = w
