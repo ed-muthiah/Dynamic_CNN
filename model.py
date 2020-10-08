@@ -46,8 +46,8 @@ class BaseModel(nn.Module):
             cls_scores = torch.tensor((), dtype=torch.double, device=self.device)
             cls_scores = cls_scores.new_zeros((imgs.size(0), 10)) #64 is batch size
             v = self.dcn_model(imgs)
-            #print('imgs size is', imgs.size())
-            #print('v size is', v.size())
+            print('imgs size is', imgs.size())
+            print('v size is', v.size())
     #imgs size is torch.Size([64, 3, 32, 32])
     #v size is torch.Size([64, 64, 8, 8])
     #w size is torch.Size([64, 576])
@@ -55,20 +55,23 @@ class BaseModel(nn.Module):
 
             w = self.w_dyn(v.view(imgs.size(0),-1))
             w_normalised = F.normalize(w, p=2, dim=0)
-            #print('w size is', w.size())
+            print('w size is', w.size())
             for img in range(v.size(0)):
-                #print('starting forward')
+                print('starting forward')
                 #print('self.dc[0].weight.data size is', self.dc[0].weight.data.size())
                 w_img = w_normalised[img,:].view_as(self.dc[0].weight.data)
                 with torch.no_grad():
                     self.dc[0].weight.data = w_img
 
                 v_i = torch.unsqueeze(v[img,:, :, :], 0)
-                #print('v_i', v_i.size())
+                print('v_i', v_i.size())
 
                 v_hat_i = self.dc(v_i)
+                print('v_hat_i', v_hat_i.size())
+                print('v_hat_i(0)', v_hat_i.size(0))
                 v_hat_i = v_hat_i / torch.norm(v_hat_i)
-                v_hat_i = v_hat_i.view(v_hat_i.size(0), imgs.size(0))
+                print('imgs size 0 is', imgs.size(0))
+                v_hat_i = v_hat_i.view(v_hat_i.size(0), imgs.size(0))                
                 cls_scores[[img],:] = self.w_cls(v_hat_i).double()
                 #print('done wooohooo')
                 #sys.exit()
