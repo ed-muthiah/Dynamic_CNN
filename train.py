@@ -53,7 +53,7 @@ def train(args, model, optimizer, dataloaders):
                     'acc': testing_accuracy,
                     'optimizer': optimizer.state_dict(),
                     'epoch': epoch,}
-                torch.save(state,'model_checkpoint.pth')
+                torch.save(state,'df_0_checkpoint.pth')
                 best_testing_accuracy=testing_accuracy
                 #
                 #
