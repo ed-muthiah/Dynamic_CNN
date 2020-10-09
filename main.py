@@ -52,8 +52,9 @@ if __name__ == '__main__':
                'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
     # network
-    print(model)
+    
     model = BaseModel(args).to(device)
+    print(model)
     # optimizer
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, betas=(0.9,0.999))
     
