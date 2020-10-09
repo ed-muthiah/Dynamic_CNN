@@ -61,7 +61,7 @@ if __name__ == '__main__':
     kernels = kernels - kernels.min()
     kernels = kernels / kernels.max()
     kernels_grid = make_grid(kernels)
-    npgrid = grid.cpu().numpy()
+    npgrid = kernels_grid.cpu().numpy()
     plt.imsave('my_kernels.jpg',np.transpose(npgrid, (1, 2, 0)))
     print('image saved')
     # resume the trained model
