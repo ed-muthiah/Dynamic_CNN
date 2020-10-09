@@ -7,6 +7,7 @@ from model import BaseModel
 from train import train, resume, evaluate
 from torchvision.utils import make_grid
 import matplotlib.pyplot as plt
+import numpy as np
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
 #
