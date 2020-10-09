@@ -37,9 +37,12 @@ def train(args, model, optimizer, dataloaders):
         batch_time = time.time() - batch_time
         print('[epoch {} | time:{:.2f} | loss:{:.5f}]'.format(epoch, batch_time, loss.item()))
         print('-------------------------------------------------')
+        train_loss.append(loss.item())
+        epoch_x.append(epoch)
 
         if epoch % 1 == 0:
             testing_accuracy = evaluate(args, model, testloader)
+            test_accuracies.append(testing_accuracy.item())
             print('testing accuracy: {:.3f}'.format(testing_accuracy))
 
             if testing_accuracy > best_testing_accuracy:
@@ -61,7 +64,29 @@ def train(args, model, optimizer, dataloaders):
                 print('new best model saved at epoch: {}'.format(epoch))
     print('-------------------------------------------------')
     print('best testing accuracy achieved: {:.3f}'.format(best_testing_accuracy))
+    #fig = plt.plot(epoch_x, train_loss)
+    
 
+    
+    fig, axs = plt.subplots(2, 2)
+    axs[0, 0].plot(epoch_x, train_loss)
+    axs[0, 0].set_title('Epoch vs. Training Loss')
+    #axs[0, 1].plot(epoch_x, y)
+    #axs[0, 1].set_title('Epoch vs. Training Accuracy')
+    #axs[1, 0].plot(epoch_x, y)
+    #axs[1, 0].set_title('Epoch vs. Test Loss')
+    axs[0, 1].plot(epoch_x, test_accuracies)
+    axs[0, 1].set_title('Epoch vs. Test Accuracy')
+    plt.savefig(fig)
+
+for ax in axs.flat:
+    ax.set(xlabel='x-label', ylabel='y-label')
+
+# Hide x labels and tick labels for top plots and y ticks for right plots.
+for ax in axs.flat:
+    ax.label_outer()
+    
+    
 def evaluate(args, model, testloader):
     total_count = torch.tensor([0.0]).cuda(); correct_count = torch.tensor([0.0]).cuda()
     for i, data in enumerate(testloader):
