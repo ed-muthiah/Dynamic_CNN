@@ -31,7 +31,7 @@ def train(args, model, optimizer, dataloaders):
             loss = criterion(cls_scores, labels)
             predict = torch.argmax(cls_scores, dim=1)
             correct_train_count += (predict == labels).sum()
-            train_accuracy = correct_count / total_count
+            train_accuracy = correct_train_count / total_train_count
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
