@@ -42,9 +42,9 @@ if __name__ == '__main__':
     trainset, testset = torch.utils.data.random_split(trainvalset, [49000, 1000])
 
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=args.batch_size,
-                                              shuffle=True, num_workers=2)
+                                              shuffle=True, num_workers=2,drop_last=True)
     testloader = torch.utils.data.DataLoader(testset, batch_size=args.batch_size,
-                                              shuffle=False, num_workers=2)
+                                              shuffle=False, num_workers=2,drop_last=True)
     dataloaders = (trainloader, testloader)
 
     classes = ('plane', 'car', 'bird', 'cat',
