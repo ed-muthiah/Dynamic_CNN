@@ -12,6 +12,8 @@ def train(args, model, optimizer, dataloaders):
     trainloader, testloader = dataloaders
 
     best_testing_accuracy = 0.0
+    train_loss=[]
+    epoch_x=[]
 
     # training
     for epoch in range(args.epochs):
