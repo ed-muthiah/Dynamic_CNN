@@ -67,7 +67,8 @@ if __name__ == '__main__':
         train(args, model, optimizer, dataloaders)
         print('training finished')
         print('starting image save')
-        kernels = model.w_dyn[0].weight.detach().clone()
+        
+        kernels = model.dc[0].weight.detach().clone()
         print('kernels shape,',kernels.size())
         kernels = kernels - kernels.min()
         kernels = kernels / kernels.max()
