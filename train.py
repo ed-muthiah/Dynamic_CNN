@@ -72,7 +72,6 @@ def train(args, model, optimizer, dataloaders):
                 print('new best model saved at epoch: {}'.format(epoch))
     print('-------------------------------------------------')
     print('best testing accuracy achieved: {:.3f}'.format(best_testing_accuracy))
-    #fig = plt.plot(epoch_x, train_loss)
     
     fig, axs = plt.subplots(2, 2)
     axs[0, 0].plot(epoch_x, train_loss)
