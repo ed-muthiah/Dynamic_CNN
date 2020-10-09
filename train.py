@@ -76,12 +76,13 @@ def train(args, model, optimizer, dataloaders):
     fig, axs = plt.subplots(2, 2)
     axs[0, 0].plot(epoch_x, train_losses)
     axs[0, 0].set_title('Epoch vs. Training Loss')
-    axs[0, 1].plot(epoch_x, train_accuracies)
-    axs[0, 1].set_title('Epoch vs. Training Accuracy')
-    axs[1, 0].plot(epoch_x, test_losses,'orange')
-    axs[1, 0].set_title('Epoch vs. Test Loss')
+    axs[1, 0].plot(epoch_x, train_accuracies)
+    axs[1, 0].set_title('Epoch vs. Training Accuracy')
+    axs[0, 1].plot(epoch_x, test_losses,'orange')
+    axs[0, 1].set_title('Epoch vs. Test Loss')
     axs[1, 1].plot(epoch_x, test_accuracies,'orange')
     axs[1, 1].set_title('Epoch vs. Test Accuracy')
+    plt.tight_layout()
     if args.with_dyn == 1:
         plt.savefig('with_dyn.jpg')
     else:
