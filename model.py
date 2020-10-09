@@ -53,7 +53,7 @@ class BaseModel(nn.Module):
 
 #            w = self.w_dyn(v.view(imgs.size(0),-1))
 #            w_normalised = F.normalize(w, p=2, dim=0)
-            print('w size is', w.size())
+            #print('w size is', w.size())
             cls_scores = torch.tensor((), dtype=torch.double, device=self.device)
             cls_scores = cls_scores.new_zeros((imgs.size(0), 10)) #64 is batch size
 
@@ -71,7 +71,9 @@ class BaseModel(nn.Module):
 
                 w = self.w_dyn(v.view(imgs.size(0),-1))
                 w_normalised = F.normalize(w, p=2, dim=0)
+                print('w size is', w.size())
                 w_img = w_normalised[img,:].view_as(self.dc[0].weight.data)
+                print('w img size is', w_img.size())
                 with torch.no_grad():
                     self.dc[0].weight.data = w_img
 
