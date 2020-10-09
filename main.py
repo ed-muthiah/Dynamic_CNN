@@ -79,6 +79,6 @@ if __name__ == '__main__':
         npgrid = kernels_grid.cpu().numpy()
         print('np grid shape,',npgrid.shape)
         my_kernels = npgrid.reshape(24//npgrid.shape[1], -1, npgrid.shape[1], npgrid.shape[2]).swapaxes(1,2).reshape(24, 24)
-        plt.figure(figsize=(30, 30))
+        plt.figure(figsize=(300, 300))
         plt.imsave('my_kernels.jpg',my_kernels)
         print('image saved')
