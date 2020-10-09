@@ -46,6 +46,9 @@ def train(args, model, optimizer, dataloaders):
             testing_accuracy = evaluate(args, model, testloader)
             test_accuracies.append(testing_accuracy)
             print('testing accuracy: {:.3f}'.format(testing_accuracy))
+            training_accuracy = evaluate(args, model, trainloader)
+            train_accuracies.append(training_accuracy)
+            print('training accuracy: {:.3f}'.format(train_accuracy))
 
             if testing_accuracy > best_testing_accuracy:
                 ### compare the previous best testing accuracy and the new testing accuracy
