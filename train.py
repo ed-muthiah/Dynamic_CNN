@@ -74,7 +74,7 @@ def train(args, model, optimizer, dataloaders):
     print('best testing accuracy achieved: {:.3f}'.format(best_testing_accuracy))
     
     fig, axs = plt.subplots(2, 2)
-    axs[0, 0].plot(epoch_x, train_loss)
+    axs[0, 0].plot(epoch_x, train_losses)
     axs[0, 0].set_title('Epoch vs. Training Loss')
     axs[0, 1].plot(epoch_x, train_accuracies)
     axs[0, 1].set_title('Epoch vs. Training Accuracy')
