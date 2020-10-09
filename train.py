@@ -82,7 +82,10 @@ def train(args, model, optimizer, dataloaders):
     axs[1, 0].set_title('Epoch vs. Test Loss')
     axs[0, 1].plot(epoch_x, test_accuracies)
     axs[0, 1].set_title('Epoch vs. Test Accuracy')
-    plt.savefig('with_dyn.jpg')
+    if args.with_dyn == 1:
+        plt.savefig('with_dyn.jpg')
+    else:
+        plt.savefig('without_dyn.jpg')
     
 def evaluate(args, model, testloader):
     model.eval()
