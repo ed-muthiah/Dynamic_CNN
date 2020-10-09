@@ -39,7 +39,7 @@ if __name__ == '__main__':
     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
     trainvalset = torchvision.datasets.CIFAR10(root='./data', train=True,
-                                               download=True, transform=transform)
+                                               download=False, transform=transform)
     trainset, testset = torch.utils.data.random_split(trainvalset, [49000, 1000])
 
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=args.batch_size,
