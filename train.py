@@ -12,7 +12,7 @@ def train(args, model, optimizer, dataloaders):
     trainloader, testloader = dataloaders
 
     best_testing_accuracy = 0.0
-    train_loss=[] # this we have
+    train_losses=[] # this we have
     train_accuracies=[] # this we find by modifying the train code
     epoch_x=[]
     test_accuracies=[] # this we have
@@ -43,7 +43,7 @@ def train(args, model, optimizer, dataloaders):
         batch_time = time.time() - batch_time
         print('[epoch {} | time:{:.2f} | loss:{:.5f}]'.format(epoch, batch_time, loss.item()))
         print('-------------------------------------------------')
-        train_loss.append(loss.item())
+        train_losses.append(loss.item())
         train_accuracies.append(train_accuracy.item())
         epoch_x.append(epoch)
 
@@ -78,7 +78,7 @@ def train(args, model, optimizer, dataloaders):
     axs[0, 0].set_title('Epoch vs. Training Loss')
     axs[0, 1].plot(epoch_x, train_accuracies)
     axs[0, 1].set_title('Epoch vs. Training Accuracy')
-    axs[1, 0].plot(epoch_x, test_loss)
+    axs[1, 0].plot(epoch_x, test_losses)
     axs[1, 0].set_title('Epoch vs. Test Loss')
     axs[0, 1].plot(epoch_x, test_accuracies)
     axs[0, 1].set_title('Epoch vs. Test Accuracy')
