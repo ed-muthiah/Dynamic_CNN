@@ -44,7 +44,7 @@ def train(args, model, optimizer, dataloaders):
         print('[epoch {} | time:{:.2f} | loss:{:.5f}]'.format(epoch, batch_time, loss.item()))
         print('-------------------------------------------------')
         train_loss.append(loss.item())
-        train_loss.append(train_accuracy.item())
+        train_accuracies.append(train_accuracy.item())
         epoch_x.append(epoch)
 
         if epoch % 1 == 0:
