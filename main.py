@@ -57,14 +57,6 @@ if __name__ == '__main__':
     # optimizer
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, betas=(0.9,0.999))
     
-    print('starting image save')
-    kernels = model.w_dyn[0].weight.detach().clone()
-    kernels = kernels - kernels.min()
-    kernels = kernels / kernels.max()
-    kernels_grid = make_grid(kernels)
-    npgrid = kernels_grid.cpu().numpy()
-    plt.imsave('my_kernels.jpg',np.transpose(npgrid, (1, 2, 0)))
-    print('image saved')
     # resume the trained model
     if args.resume:
         model, optimizer = resume(args, model, optimizer)
@@ -75,3 +67,11 @@ if __name__ == '__main__':
     else: # train mode, train the network from scratch
         train(args, model, optimizer, dataloaders)
         print('training finished')
+        print('starting image save')
+        kernels = model.w_dyn[0].weight.detach().clone()
+        kernels = kernels - kernels.min()
+        kernels = kernels / kernels.max()
+        kernels_grid = make_grid(kernels)
+        npgrid = kernels_grid.cpu().numpy()
+        plt.imsave('my_kernels.jpg',np.transpose(npgrid, (1, 2, 0)))
+        print('image saved')
