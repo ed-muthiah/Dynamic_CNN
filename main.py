@@ -5,6 +5,7 @@ import torchvision.transforms as transforms
 
 from model import BaseModel
 from train import train, resume, evaluate
+from torchvision.utils import make_grid
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
@@ -54,6 +55,12 @@ if __name__ == '__main__':
     model = BaseModel(args).to(device)
     # optimizer
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, betas=(0.9,0.999))
+    
+    kernels = model.w_dyn[0].weight.detach().clone()
+    kernels = kernels - kernels.min()
+    kernels = kernels / kernels.max()
+    img = make_grid(kernels)
+    plt.imsave('my_kernels.jpg',img.permute(1, 2, 0) )
 
     # resume the trained model
     if args.resume:
