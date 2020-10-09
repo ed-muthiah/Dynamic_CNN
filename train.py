@@ -2,7 +2,8 @@ import os
 import time
 import torch
 import sys
-
+import matplotlib.pyplot as plt
+import numpy as np
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 criterion = torch.nn.CrossEntropyLoss()
