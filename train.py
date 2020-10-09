@@ -43,7 +43,7 @@ def train(args, model, optimizer, dataloaders):
 
         if epoch % 1 == 0:
             testing_accuracy = evaluate(args, model, testloader)
-            test_accuracies.append(testing_accuracy.item())
+            test_accuracies.append(testing_accuracy)
             print('testing accuracy: {:.3f}'.format(testing_accuracy))
 
             if testing_accuracy > best_testing_accuracy:
