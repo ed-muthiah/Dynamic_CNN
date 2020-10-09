@@ -6,7 +6,7 @@ import torchvision.transforms as transforms
 from model import BaseModel
 from train import train, resume, evaluate
 from torchvision.utils import make_grid
-
+import matplotlib.pyplot as plt
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
 #
