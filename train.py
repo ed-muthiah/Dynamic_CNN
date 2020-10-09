@@ -15,10 +15,11 @@ def train(args, model, optimizer, dataloaders):
     train_loss=[]
     epoch_x=[]
     test_accuracies=[]
+    train_accuracies=[]
     # training
     for epoch in range(args.epochs):
-        model.train()
-
+        running_loss = 0.0
+        #model.train()
         batch_time = time.time(); iter_time = time.time()
         for i, data in enumerate(trainloader):
 
@@ -43,12 +44,9 @@ def train(args, model, optimizer, dataloaders):
         epoch_x.append(epoch)
 
         if epoch % 1 == 0:
-            testing_accuracy = evaluate(args, model, testloader)
+            testing_accuracy,testing_loss = evaluate(args, model, testloader)
             test_accuracies.append(testing_accuracy)
             print('testing accuracy: {:.3f}'.format(testing_accuracy))
-            training_accuracy = evaluate(args, model, trainloader)
-            train_accuracies.append(training_accuracy)
-            print('training accuracy: {:.3f}'.format(train_accuracy))
 
             if testing_accuracy > best_testing_accuracy:
                 ### compare the previous best testing accuracy and the new testing accuracy
@@ -84,6 +82,7 @@ def train(args, model, optimizer, dataloaders):
     
 def evaluate(args, model, testloader):
     total_count = torch.tensor([0.0]).cuda(); correct_count = torch.tensor([0.0]).cuda()
+    running_loss = torch.tensor([0.0]).cuda()
     for i, data in enumerate(testloader):
         imgs, labels = data
         imgs, labels = imgs.to(device), labels.to(device)
@@ -92,11 +91,13 @@ def evaluate(args, model, testloader):
 
         with torch.no_grad():
             cls_scores = model(imgs, with_dyn=args.with_dyn)
-
+            loss = criterion(cls_scores, labels.unsqueeze(1).float())
+            running_loss += loss.item()*imgs.size(0)
             predict = torch.argmax(cls_scores, dim=1)
             correct_count += (predict == labels).sum()
+    testing_loss = running_loss/len(testloader.dataset)        
     testing_accuracy = correct_count / total_count
-    return testing_accuracy.item()
+    return testing_accuracy.item(),testing_loss
 
 
 def resume(args, model, optimizer):
