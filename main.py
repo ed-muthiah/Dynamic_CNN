@@ -78,7 +78,6 @@ if __name__ == '__main__':
         print('kernels_grid shape,',kernels.size())
         npgrid = kernels_grid.cpu().numpy()
         print('np grid shape,',npgrid.shape)
-        npgrid_sq = np.squeeze(npgrid)
-        print('np grid squeezed shape,',npgrid_sq.shape)
+        my_kernels = npgrid.reshape(24//npgrid.shape[1], -1, npgrid.shape[1], npgrid.shape[2]).swapaxes(1,2).reshape(24, 24)
         plt.imsave('my_kernels.jpg',npgrid)
         print('image saved')
