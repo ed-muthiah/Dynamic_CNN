@@ -77,9 +77,9 @@ class BaseModel(nn.Module):
                 # Get the normalised dynamic network weights for each image and reshape
                 w_img = w_normalised[img,:].view_as(self.dc[0].weight.data)
 
-                with torch.no_grad():
-                    # Set the weights of DC layer 
-                    self.dc[0].weight.data = w_img
+                #with torch.no_grad():
+                # Set the weights of DC layer 
+                self.dc[0].weight.data = w_img
 
                 # Unsqueeze to make 3D into 4D for image feature map
                 v_i = torch.unsqueeze(v[img,:, :, :], 0)
