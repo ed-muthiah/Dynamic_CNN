@@ -10,13 +10,14 @@ criterion = torch.nn.CrossEntropyLoss()
 
 def train(args, model, optimizer, dataloaders):
     trainloader, testloader = dataloaders
-
+    
+    # Initialise various loss and accuracy lists
     best_testing_accuracy = 0.0
-    train_losses=[] # this we have
-    train_accuracies=[] # this we find by modifying the train code
-    epoch_x=[]
-    test_accuracies=[] # this we have
-    test_losses = [] # this we find by modifying the eval code
+    train_losses=[] # Train losses was in given code
+    train_accuracies=[] # This we find by modifying the train code
+    epochs=[]
+    test_accuracies=[] # Test accuracies was in given code
+    test_losses = [] # This we find by modifying the eval code
     
     # training
     for epoch in range(args.epochs):
@@ -29,9 +30,9 @@ def train(args, model, optimizer, dataloaders):
             total_train_count += labels.size(0)
             cls_scores = model(imgs, with_dyn=args.with_dyn)
             loss = criterion(cls_scores, labels)
-            predict = torch.argmax(cls_scores, dim=1)
-            correct_train_count += (predict == labels).sum()
-            train_accuracy = correct_train_count / total_train_count
+            predict = torch.argmax(cls_scores, dim=1) # Added to get train accuracy
+            correct_train_count += (predict == labels).sum() # Added to get train accuracy
+            train_accuracy = correct_train_count / total_train_count # Added to get train accuracy
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
@@ -45,7 +46,7 @@ def train(args, model, optimizer, dataloaders):
         print('-------------------------------------------------')
         train_losses.append(loss.item())
         train_accuracies.append(train_accuracy.item())
-        epoch_x.append(epoch)
+        epochs.append(epoch)
 
         if epoch % 1 == 0:
             testing_accuracy,testing_loss = evaluate(args, model, testloader)
@@ -58,14 +59,15 @@ def train(args, model, optimizer, dataloaders):
                 ### save the model and the optimizer --------------------------------
                 #
                 #
-                print('Saving....')
+                # Inspiration from pytorch documentation: https://tinyurl.com/y2ezphvt
+                # Define the dictionary key value pairs to save checkpoint
                 state = {
-                    'state_dict': model.state_dict(),
-                    'acc': testing_accuracy,
-                    'optimizer': optimizer.state_dict(),
-                    'epoch': epoch,}
-                torch.save(state,'df_0_checkpoint.pth')
-                best_testing_accuracy=testing_accuracy
+                    'state_dict': model.state_dict(), # Save model weights and biases
+                    'accuracy': testing_accuracy, # Save the testing accuracy
+                    'optimizer': optimizer.state_dict(), # Save the optimiser state
+                    'epoch': epoch,} # Save the epoch
+                torch.save(state,'df_0_checkpoint.pth') # Set path to save thes state
+                best_testing_accuracy=testing_accuracy # set the testing accuracy to be the new best
                 #
                 #
                 ### -----------------------------------------------------------------
@@ -73,14 +75,15 @@ def train(args, model, optimizer, dataloaders):
     print('-------------------------------------------------')
     print('best testing accuracy achieved: {:.3f}'.format(best_testing_accuracy))
     
+    # This section of code plots four plots to compare the train vs test statistics
     fig, axs = plt.subplots(2, 2)
-    axs[0, 0].plot(epoch_x, train_losses)
+    axs[0, 0].plot(epochs, train_losses)
     axs[0, 0].set_title('Epoch vs. Training Loss')
-    axs[1, 0].plot(epoch_x, train_accuracies)
+    axs[1, 0].plot(epochs, train_accuracies)
     axs[1, 0].set_title('Epoch vs. Training Accuracy')
-    axs[0, 1].plot(epoch_x, test_losses,'orange')
+    axs[0, 1].plot(epochs, test_losses,'orange')
     axs[0, 1].set_title('Epoch vs. Test Loss')
-    axs[1, 1].plot(epoch_x, test_accuracies,'orange')
+    axs[1, 1].plot(epochs, test_accuracies,'orange')
     axs[1, 1].set_title('Epoch vs. Test Accuracy')
     plt.tight_layout()
     if args.with_dyn == 1:
@@ -89,23 +92,20 @@ def train(args, model, optimizer, dataloaders):
         plt.savefig('without_dyn.jpg')
     
 def evaluate(args, model, testloader):
-    model.eval()
+    model.eval() #
     total_count = torch.tensor([0.0]).cuda(); correct_count = torch.tensor([0.0]).cuda()
-    #running_loss = torch.tensor([0.0]).cuda()
     for i, data in enumerate(testloader):
         imgs, labels = data
         imgs, labels = imgs.to(device), labels.to(device)
-
         total_count += labels.size(0)
         with torch.no_grad():
             cls_scores = model(imgs, with_dyn=args.with_dyn)
-            loss = criterion(cls_scores, labels)
-            #running_loss += loss.item()*imgs.size(0)
+            loss = criterion(cls_scores, labels) # Added to get test loss
             predict = torch.argmax(cls_scores, dim=1)
             correct_count += (predict == labels).sum()
-    testing_loss = loss.item()
-    testing_accuracy = correct_count / total_count
-    return testing_accuracy.item(),testing_loss
+    testing_loss = loss.item() # Added to get test loss
+    testing_accuracy = correct_count / total_count # Added to get test loss
+    return testing_accuracy.item(),testing_loss 
 
 
 def resume(args, model, optimizer):
@@ -115,9 +115,9 @@ def resume(args, model, optimizer):
     ### load the model and the optimizer --------------------------------
     #
     #
-    checkpoint = torch.load(checkpoint_path)
-    model.load_state_dict(checkpoint['state_dict'])
-    optimizer.load_state_dict(checkpoint['optimizer'])
+    checkpoint = torch.load(checkpoint_path) # Load the check point
+    model.load_state_dict(checkpoint['state_dict']) # Load the model state
+    optimizer.load_state_dict(checkpoint['optimizer']) # Load the optimizer state
     #
     #
     ### -----------------------------------------------------------------
