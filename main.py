@@ -2,7 +2,7 @@ import argparse
 import torch
 import torchvision
 import torchvision.transforms as transforms
-
+from prettytable import PrettyTable
 from model import BaseModel
 from train import train, resume, evaluate
 from torchvision.utils import make_grid
@@ -27,6 +27,18 @@ def parse_args():
 
     args = parser.parse_args()
     return args
+
+def count_parameters(model):
+    table = PrettyTable(["Modules", "Parameters"])
+    total_params = 0
+    for name, parameter in model.named_parameters():
+        if not parameter.requires_grad: continue
+        param = parameter.numel()
+        table.add_row([name, param])
+        total_params+=param
+    print(table)
+    print(f"Total Trainable Params: {total_params}")
+    return total_params
 
 if __name__ == '__main__':
     args = parse_args()
@@ -55,6 +67,7 @@ if __name__ == '__main__':
     
     model = BaseModel(args).to(device)
     print(model)
+    count_parameters(model)
     # optimizer
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, betas=(0.9,0.999))
     
